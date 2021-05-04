@@ -9,6 +9,7 @@ int max(int a, int b) {
 
 int shift_and_exact(char* text, char* pattern) {
     int m = strlen(pattern);
+    int n = strlen(text);
     unsigned long R;
     unsigned long pattern_mask[ASCII_CHAR];
     
@@ -20,9 +21,9 @@ int shift_and_exact(char* text, char* pattern) {
     for (int i = 0; i < ASCII_CHAR; i++) pattern_mask[i] = 0;
     for (int i = 0; i < m; i++) pattern_mask[pattern[i]] = pattern_mask[pattern[i]] + pow(2, i);
 
-    for (int i = 0; i < text[i] != '\0'; i++) {
+    for (int i = 0; i < n; i++) {
         R = ((R << 1) + 1) & pattern_mask[text[i]];
-        if (R & (unsigned long) pow(2, (m-1))) return i-m+1; 
+        if ((R & (unsigned long) pow(2, (m-1)))!=0) return i-m+1; 
     }
     
     return -2;
@@ -60,4 +61,6 @@ int boyer_moore(char* text, char* pattern) {
             shift += max(1, j - badchar[text[shift+j]]);
         }        
     }
+
+    return -2;
 }

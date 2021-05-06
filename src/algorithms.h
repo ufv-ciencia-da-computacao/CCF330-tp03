@@ -6,3 +6,4 @@
 
 int shift_and_exact(char* text, char* pattern);
 int boyer_moore(char* text, char* pattern);
+void shift_and_aprox(char* text, char* pattern, long k);

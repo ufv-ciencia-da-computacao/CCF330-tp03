@@ -2,8 +2,8 @@
 
 all: main
 
-main: ./src/algorithms.c ./src/main.c
-	gcc ./src/algorithms.c -lm ./src/main.c -o main
+main: ./src/leitura.c ./src/algorithms.c ./src/main.c
+	gcc ./src/menu.c ./src/leitura.c ./src/algorithms.c -lm ./src/main.c -o main
 
 clean:
 ifeq ($(OS),Windows_NT)

@@ -81,11 +81,12 @@ void shift_and_aprox(char* text, char* pattern, long k, int insert, int remove, 
     R[0] = 0;
     Ri = 1 << (m-1);
     for(i=1; i<=k; i++) R[i] = (1<<(m-i)) | R[i-1];
-    for(i=0; i<n; i++) {
-        Rant = R[0];
-        Rnovo = ((((unsigned long)Rant) >> 1) | Ri) & mask[text[i]+127];
-        R[0] = Rnovo;
-        if(insert && remove && alter) {
+
+    if(insert && remove && alter) {
+        for(i=0; i<n; i++) {
+            Rant = R[0];
+            Rnovo = ((((unsigned long)Rant) >> 1) | Ri) & mask[text[i]+127];
+            R[0] = Rnovo;
             for(j=1; j<=k; j++) {
                 Rnovo = ((((unsigned long)R[j]) >> 1) & mask[text[i] + 127])
                         | (unsigned long)(Rnovo >> 1) /*Insert*/
@@ -94,7 +95,17 @@ void shift_and_aprox(char* text, char* pattern, long k, int insert, int remove, 
                 Rant = R[j];
                 R[j] = Rnovo | Ri;
             }
-        } else if(insert && remove) {
+            
+            if((Rnovo & 1) != 0) {
+                printf("\nShift-And Aprox: Match no indice: %d", i+1);
+                flag = 0;
+            }
+        }
+    } else if(insert && remove) {
+        for(i=0; i<n; i++) {
+            Rant = R[0];
+            Rnovo = ((((unsigned long)Rant) >> 1) | Ri) & mask[text[i]+127];
+            R[0] = Rnovo;
             for(j=1; j<=k; j++) {
                 Rnovo = ((((unsigned long)R[j]) >> 1) & mask[text[i] + 127])
                         | (unsigned long)(Rnovo >> 1) /*Insert*/
@@ -102,7 +113,17 @@ void shift_and_aprox(char* text, char* pattern, long k, int insert, int remove, 
                 Rant = R[j];
                 R[j] = Rnovo | Ri;
             }
-        } else if(insert && alter) {
+            
+            if((Rnovo & 1) != 0) {
+                printf("\nShift-And Aprox: Match no indice: %d", i+1);
+                flag = 0;
+            }
+        }
+    } else if(insert && alter) {
+        for(i=0; i<n; i++) {
+            Rant = R[0];
+            Rnovo = ((((unsigned long)Rant) >> 1) | Ri) & mask[text[i]+127];
+            R[0] = Rnovo;
             for(j=1; j<=k; j++) {
                 Rnovo = ((((unsigned long)R[j]) >> 1) & mask[text[i] + 127])
                         | (unsigned long)(Rnovo >> 1) /*Insert*/
@@ -110,7 +131,17 @@ void shift_and_aprox(char* text, char* pattern, long k, int insert, int remove, 
                 Rant = R[j];
                 R[j] = Rnovo | Ri;
             }
-        } else if(remove && alter) {
+            
+            if((Rnovo & 1) != 0) {
+                printf("\nShift-And Aprox: Match no indice: %d", i+1);
+                flag = 0;
+            }
+        }
+    } else if(remove && alter) {
+        for(i=0; i<n; i++) {
+            Rant = R[0];
+            Rnovo = ((((unsigned long)Rant) >> 1) | Ri) & mask[text[i]+127];
+            R[0] = Rnovo;
             for(j=1; j<=k; j++) {
                 Rnovo = ((((unsigned long)R[j]) >> 1) & mask[text[i] + 127])
                         | Rant /*Remove*/
@@ -118,38 +149,78 @@ void shift_and_aprox(char* text, char* pattern, long k, int insert, int remove, 
                 Rant = R[j];
                 R[j] = Rnovo | Ri;
             }
-        } else if(insert) {
+            
+            if((Rnovo & 1) != 0) {
+                printf("\nShift-And Aprox: Match no indice: %d", i+1);
+                flag = 0;
+            }
+        }
+    } else if(insert) {
+        for(i=0; i<n; i++) {
+            Rant = R[0];
+            Rnovo = ((((unsigned long)Rant) >> 1) | Ri) & mask[text[i]+127];
+            R[0] = Rnovo;
             for(j=1; j<=k; j++) {
                 Rnovo = ((((unsigned long)R[j]) >> 1) & mask[text[i] + 127])
                         | (unsigned long)(Rnovo >> 1) /*Insert*/;
                 Rant = R[j];
                 R[j] = Rnovo | Ri;
             }
-        } else if(remove) {
+            
+            if((Rnovo & 1) != 0) {
+                printf("\nShift-And Aprox: Match no indice: %d", i+1);
+                flag = 0;
+            }
+        }
+    } else if(remove) {
+        for(i=0; i<n; i++) {
+            Rant = R[0];
+            Rnovo = ((((unsigned long)Rant) >> 1) | Ri) & mask[text[i]+127];
+            R[0] = Rnovo;
             for(j=1; j<=k; j++) {
                 Rnovo = ((((unsigned long)R[j]) >> 1) & mask[text[i] + 127])
                         | Rant /*Remove*/;
                 Rant = R[j];
                 R[j] = Rnovo | Ri;
             }
-        } else if(alter) {
+            
+            if((Rnovo & 1) != 0) {
+                printf("\nShift-And Aprox: Match no indice: %d", i+1);
+                flag = 0;
+            }
+        }
+    } else if(alter) {
+        for(i=0; i<n; i++) {
+            Rant = R[0];
+            Rnovo = ((((unsigned long)Rant) >> 1) | Ri) & mask[text[i]+127];
+            R[0] = Rnovo;
             for(j=1; j<=k; j++) {
                 Rnovo = ((((unsigned long)R[j]) >> 1) & mask[text[i] + 127])
                         | (unsigned long)(Rant >> 1) /*Substitution*/;
                 Rant = R[j];
                 R[j] = Rnovo | Ri;
             }
-        } else {
+            
+            if((Rnovo & 1) != 0) {
+                printf("\nShift-And Aprox: Match no indice: %d", i+1);
+                flag = 0;
+            }
+        }
+    } else {
+        for(i=0; i<n; i++) {
+            Rant = R[0];
+            Rnovo = ((((unsigned long)Rant) >> 1) | Ri) & mask[text[i]+127];
+            R[0] = Rnovo;
             for(j=1; j<=k; j++) {
                 Rnovo = ((((unsigned long)R[j]) >> 1) & mask[text[i] + 127]);
                 Rant = R[j];
                 R[j] = Rnovo | Ri;
             }
-        }
-        
-        if((Rnovo & 1) != 0) {
-            printf("\nShift-And Aprox: Match no indice: %d", i+1);
-            flag = 0;
+            
+            if((Rnovo & 1) != 0) {
+                printf("\nShift-And Aprox: Match no indice: %d", i+1);
+                flag = 0;
+            }
         }
     }
 

@@ -1,6 +1,7 @@
 #include "menu.h"
 #include "leitura.h"
 #include "algorithms.h"
+#include "time.h"
 
 void menu() {
     int op = -1;
@@ -73,41 +74,61 @@ char* open_file() {
 
 void execute_boyer_moore(char *text) {
     int indice;
+    clock_t ini, end, tot;
     char *pattern;
     pattern = (char*) malloc(100*sizeof(char));
     
     printf("Qual o padrao procurado? ");
     scanf(" %[^\n]s", pattern);
 
+    ini = clock();
     indice = boyer_moore(text, pattern);
+    end = clock();
+
     if(indice == -2) {
         printf("\nPadrao nao encontrado.");
     } else {
         printf("\nBoyer Moore: Match no indice: %d", indice);
     }
+    
+    #ifdef DEBUG
+        tot = (double)(end - ini) / CLOCKS_PER_SEC;
+        printf("\nTempo gasto: %f", tot);
+    #endif
+
     free(pattern);
 }
 
 void execute_shift_and_exato(char *text) {
     int indice;
+    clock_t ini, end, tot;
     char *pattern;
     pattern = (char*) malloc(100*sizeof(char));
 
     printf("Qual o padrao procurado? ");
     scanf(" %[^\n]s", pattern);
 
+    ini = clock();
     indice = shift_and_exact(text, pattern);
+    end = clock();
+
     if(indice == -2) {
         printf("\nPadrao nao encontrado.");
     } else {
         printf("\nBoyer Moore: Match no indice: %d", indice);
     }
 
+    #ifdef DEBUG
+        tot = (double)(end - ini) / CLOCKS_PER_SEC;
+        printf("\nTempo gasto: %f", tot);
+    #endif
+
     free(pattern);
 }
 
 void execute_shift_and_aprox(char *text) {
     int alg, k, ins, rem, subs;
+    clock_t ini, end, tot;
     char *pattern;
     pattern = (char*) malloc(100*sizeof(char));
 
@@ -116,13 +137,21 @@ void execute_shift_and_aprox(char *text) {
 
     printf("Distancia de Edicao: ");
     scanf("%d", &k);
-    printf("Permitir insercao? (1->Sim | 0->Nao)");
+    printf("Permitir insercao? (1->Sim | 0->Nao) ");
     scanf("%d", &ins);
-    printf("Permitir remocao? (1->Sim | 0->Nao)");
+    printf("Permitir remocao? (1->Sim | 0->Nao) ");
     scanf("%d", &rem);
-    printf("Permitir substituicao? (1->Sim | 0->Nao)");
+    printf("Permitir substituicao? (1->Sim | 0->Nao) ");
     scanf("%d", &subs);
+
+    ini = clock();
     shift_and_aprox(text, pattern, k, ins, rem, subs);
+    end = clock();
+    
+    #ifdef DEBUG
+        tot = (double)(end - ini) / CLOCKS_PER_SEC;
+        printf("\nTempo gasto: %f", tot);
+    #endif
 
     free(pattern);
 }

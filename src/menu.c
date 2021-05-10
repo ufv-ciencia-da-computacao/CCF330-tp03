@@ -1,7 +1,7 @@
 #include "menu.h"
 #include "leitura.h"
 #include "algorithms.h"
-#include "time.h"
+#include <time.h>
 
 void menu() {
     int op = -1;
@@ -61,9 +61,9 @@ void menu() {
 
 char* open_file() {
     char *text;
-    char name[50];
+    char name[2000];
 
-    printf("Nome do arquivo (sem extensao): ");
+    printf("Nome do arquivo: ");
     scanf(" %[^\n]s", name);
 
     if(read_file(&text, name) == 0) printf("\nArquivo vazio");
@@ -74,7 +74,8 @@ char* open_file() {
 
 void execute_boyer_moore(char *text) {
     int indice;
-    clock_t ini, end, tot;
+    clock_t ini, end;
+    double tot;
     char *pattern;
     pattern = (char*) malloc(100*sizeof(char));
     
@@ -82,18 +83,12 @@ void execute_boyer_moore(char *text) {
     scanf(" %[^\n]s", pattern);
 
     ini = clock();
-    indice = boyer_moore(text, pattern);
+    boyer_moore(text, pattern);
     end = clock();
-
-    if(indice == -2) {
-        printf("\nPadrao nao encontrado.");
-    } else {
-        printf("\nBoyer Moore: Match no indice: %d", indice);
-    }
     
     #ifdef DEBUG
         tot = (double)(end - ini) / CLOCKS_PER_SEC;
-        printf("\nTempo gasto: %f", tot);
+        printf("\nTempo gasto: %lf", tot);
     #endif
 
     free(pattern);
@@ -101,7 +96,8 @@ void execute_boyer_moore(char *text) {
 
 void execute_shift_and_exato(char *text) {
     int indice;
-    clock_t ini, end, tot;
+    clock_t ini, end;
+    double tot;
     char *pattern;
     pattern = (char*) malloc(100*sizeof(char));
 
@@ -109,18 +105,12 @@ void execute_shift_and_exato(char *text) {
     scanf(" %[^\n]s", pattern);
 
     ini = clock();
-    indice = shift_and_exact(text, pattern);
+    shift_and_exact(text, pattern);
     end = clock();
-
-    if(indice == -2) {
-        printf("\nPadrao nao encontrado.");
-    } else {
-        printf("\nBoyer Moore: Match no indice: %d", indice);
-    }
 
     #ifdef DEBUG
         tot = (double)(end - ini) / CLOCKS_PER_SEC;
-        printf("\nTempo gasto: %f", tot);
+        printf("\nTempo gasto: %lf", tot);
     #endif
 
     free(pattern);
@@ -128,7 +118,8 @@ void execute_shift_and_exato(char *text) {
 
 void execute_shift_and_aprox(char *text) {
     int alg, k, ins, rem, subs;
-    clock_t ini, end, tot;
+    clock_t ini, end; 
+    double tot;
     char *pattern;
     pattern = (char*) malloc(100*sizeof(char));
 
@@ -150,7 +141,7 @@ void execute_shift_and_aprox(char *text) {
     
     #ifdef DEBUG
         tot = (double)(end - ini) / CLOCKS_PER_SEC;
-        printf("\nTempo gasto: %f", tot);
+        printf("\nTempo gasto: %lf", tot);
     #endif
 
     free(pattern);

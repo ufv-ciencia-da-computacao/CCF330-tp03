@@ -4,8 +4,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-int shift_and_exact(char* text, char* pattern);
-int boyer_moore(char* text, char* pattern);
+void shift_and_exact(char* text, char* pattern);
+void boyer_moore(char* text, char* pattern);
 
 /*
  * Input Parameters

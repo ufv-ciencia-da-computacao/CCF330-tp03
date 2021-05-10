@@ -3,13 +3,13 @@
 
 int read_file(char **text, char *fileName) {
     FILE *file;
-    char path[100];
+    char path[2000];
     int i=0;
     size_t pos, length;
 
-    strcpy(path, "./data/");
-    strcat(path, fileName);
-    strcat(path, ".txt");
+    // strcpy(path, "./data/");
+    strcpy(path, fileName);
+    // strcat(path, ".txt");
 
     file = fopen(path, "r");
 
@@ -24,6 +24,7 @@ int read_file(char **text, char *fileName) {
     length = ftell(file) + 1;    // read the position which is the size
     fseek(file, pos, SEEK_SET);  // restore original position
 
+    
     (*text) = (char*) malloc(length*sizeof(char));    
     while (!feof(file)) {
         fscanf(file, "%c", &(*text)[i]);

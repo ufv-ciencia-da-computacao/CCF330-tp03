@@ -67,7 +67,7 @@ void boyer_moore(char* text, char* pattern) {
 
 void shift_and_aprox(char* text, char* pattern, long k, int insert, int remove, int alter) {
     long i, j, Ri, Rant, Rnovo, count = 0, flag = 1;
-    long R[k + 1], mask[ASCII_CHAR];
+    long R[ASCII_CHAR + 1], mask[ASCII_CHAR];
     long m = strlen(pattern);
     long n = strlen(text);
 
@@ -207,21 +207,18 @@ void shift_and_aprox(char* text, char* pattern, long k, int insert, int remove, 
             }
         }
     } else {
-        for(i=0; i<=n; i++) {
+        for(i=0; i<n; i++) {
             Rant = R[0];
             Rnovo = ((((unsigned long)Rant) >> 1) | Ri) & mask[text[i]+127];
             R[0] = Rnovo;
-            for(j=1; j<=k; j++) {
-                Rnovo = ((((unsigned long)R[j]) >> 1) & mask[text[i] + 127]);
-                Rant = R[j];
-                R[j] = Rnovo | Ri;
+
+            if((Rnovo & 1) != 0) {
+                printf("\nShift-And Aprox: Match no indice: %ld", i+1);
+                flag = 0;
             }
         }
         
-        if((Rnovo & 1) != 0) {
-            printf("\nShift-And Aprox: Match no indice: %ld", i+1);
-            flag = 0;
-        }
+        
     }
 
 

@@ -12,6 +12,7 @@ void shift_and_exact(char* text, char* pattern) {
     int n = strlen(text);
     unsigned long R;
     unsigned long pattern_mask[ASCII_CHAR];
+    int flag=0;
 
     R = 0;
 
@@ -21,8 +22,13 @@ void shift_and_exact(char* text, char* pattern) {
     for (int i = 0; i < n; i++) {
         R = ((((unsigned long)R) >> 1) | 
           (1 << (m - 1))) & pattern_mask[text[i] + 127];
-        if ((R & 1) != 0) printf("Shift-And Exato: Match no indice: %d\n", i-m+2);
+        if ((R & 1) != 0) {
+            printf("Shift-And Exato: Match no indice: %d\n", i-m+2);
+            flag=1;
+        }
     }
+
+    if (flag==0) printf("Padrão não encontrado!\n");
     
     return;
 }
@@ -40,7 +46,7 @@ void boyer_moore(char* text, char* pattern) {
     int m = strlen(pattern);
     int n = strlen(text);
 
-    int badchar[ASCII_CHAR];
+    int badchar[ASCII_CHAR+1];
 
     occurrence_shift(pattern, m, badchar);
 
@@ -216,11 +222,8 @@ void shift_and_aprox(char* text, char* pattern, long k, int insert, int remove, 
                 printf("\nShift-And Aprox: Match no indice: %ld", i+1);
                 flag = 0;
             }
-        }
-        
-        
+        }        
     }
-
 
     if(flag) printf("\nNenhum match aproximado!");
 
